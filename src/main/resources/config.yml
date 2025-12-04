@@ -1,0 +1,90 @@
+# ZHotbarLock main configuration
+
+# PLEASE READ:
+# If a user is OP, or inherits zhotbarlock.bypass permission, they will not be affected by anything under events or lock behavior.  They will all act as false.
+# Note: They can still be targeted with the reissue command (see bottom for more details).
+
+# This controls what worlds the plugin works in.  
+# Note: If a world is not listed here, the plugin will mostly lose functionality, but items obtained in a previous world will still be subject to prevoous locks.
+# Custom worlds will work so long as they are properly registered.  
+# Hint: If it appears in `/world`, it is properly registered and you should use that name.
+enabled-worlds:
+  - world
+  - world_nether
+  - world_the_end
+
+all-gamemodes: true # If this is true, all gamemodes are allowed. If false, only those in allowed-gamemodes are allowed.
+allowed-gamemodes:
+  - SURVIVAL
+  - ADVENTURE
+
+events: # These are global settings.  I intend to eventually make it a setting per item.
+  check-on-join: true
+  check-on-respawn: true
+  check-on-world-change: true
+
+items:
+  selector-main:
+    enabled: true
+    material: "COMPASS"
+    name: "&aServer Selector"
+    lore:
+      - "&7Right-click to open the server selector."
+    glow: false
+    nbt-id: "selector_main"
+
+    # Slot behavior
+    preferred-slot: 0
+    use-next-free-hotbar-slot: true # I need to fix this logic.  Right now, if the preferred slot is occupied, it will start back from the beginning, rather than going to the next slot in line.
+    allow-offhand-fallback: true
+    force-offhand: false # If this is true, the item will always go to offhand if possible and initially ignore preferred-slot.
+    log-on-placement-failure: true # If true, logs will show in the console.
+
+    # Lock behavior
+    lock-inventory-movement: true
+    block-container-move: true
+    block-drop: true
+    block-offhand-swap: true
+
+  selector-main2:
+    enabled: true
+    material: "STICK"
+    name: "&aServer Selector"
+    lore:
+      - "&7Right-click to open the server selector."
+    glow: false
+    nbt-id: "selector_main2"
+
+    # Slot behavior
+    preferred-slot: 1
+    use-next-free-hotbar-slot: true # I need to fix this logic.  Right now, if the preferred slot is occupied, it will start back from the beginning, rather than going to the next slot in line.
+    allow-offhand-fallback: true
+    force-offhand: false # If this is true, the item will always go to offhand if possible and initially ignore preferred-slot.
+    log-on-placement-failure: true # If true, logs will show in the console.
+
+    # Lock behavior
+    lock-inventory-movement: true
+    block-container-move: true
+    block-drop: true
+    block-offhand-swap: true
+
+    # Permission and command information:
+    # If a user has zhotbarlock.admin, they can do the following:
+    # /zhotbarlock reload - Reloads the config file without restarting the server.
+    # /zhotbarlock reissue <player> - Reissues all locked hotbar
+    # /zhotbarlock reissue <player> <nbt-id> - Reissues a specific locked hotbar item by its NBT ID.
+    # /zhotbarlock clear <player> - Clears all locked hotbar items from a player (only clears items managed by ZHotbarLock).
+    # If you want to clear all items, you'll have to use something like Essentials /clear command or something similar.
+
+
+
+    # Roadmap: 
+    # Make admin facing messages configurable.
+    # Fix logic of "use next free hotbar slot" to not start back at 0 every time.
+    # Add per-item event toggles.
+    # Consider unlocking or deleting items if moving to a world not listed in the config
+    # Consider blocking certain items from being used (those with built in right click functionality such as a book & Quil, or valuable items/totems etc)
+    
+    # Right now, if a player who can bypass permissions drops an item, and then they are picked up (by that player or another)
+    # they can stack (like a compass) or the player will have multiple if non-stackable (totems).
+    # Consider checking for/suppressing duplicates on `EntityPickupItemEvent`

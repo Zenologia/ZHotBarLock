@@ -1,0 +1,21 @@
+name: ZHotbarLock
+main: com.zenologia.zhotbarlock.ZHotbarLockPlugin
+version: 1.0
+author: Zenologia
+api-version: "1.20"
+description: A lightweight Paper plugin for managing persistent, locked hotbar/offhand items (such as server selectors).  Designed for cross-version compatibility (1.20–1.21+) and fully configurable behavior.
+softdepend: [DeluxeMenus]
+
+commands:
+  zhotbarlock:
+    description: Admin commands for ZHotbarLock
+    usage: "/zhotbarlock reload|clear <player>|reissue <player> [item-id]"
+    permission: zhotbarlock.admin
+
+permissions:
+  zhotbarlock.admin:
+    description: Allows admin control of ZHotbarLock
+    default: op
+  zhotbarlock.bypass:
+    description: Bypass all automated ZHotbarLock enforcement and locks
+    default: op
